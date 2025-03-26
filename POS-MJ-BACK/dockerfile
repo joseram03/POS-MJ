@@ -1,0 +1,14 @@
+# Usa una imagen base con Java 17
+FROM eclipse-temurin:17-jdk-jammy
+
+# Directorio de trabajo en el contenedor
+WORKDIR /app
+
+# Copia el archivo JAR construido (lo nombramos app.jar para simplificar)
+COPY target/POS-MJ-BACK-*.jar app.jar
+
+# Puerto que expone la aplicación
+EXPOSE 8080
+
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]
