@@ -33,29 +33,29 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.crearProducto(producto));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Producto> actualizarProducto(
-            @PathVariable Long id,
-            @RequestBody Producto productoActualizado) {
-        return ResponseEntity.ok(productoService.actualizarProducto(id, productoActualizado));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
-        productoService.eliminarProducto(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @PutMapping("/{id}/desactivar")     //Tested
     public ResponseEntity<Void> desactivarProducto(@PathVariable Long id) {
         productoService.desactivarProducto(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/activar")    //Not working
+    @PutMapping("/{id}/activar")    //Tested
     public ResponseEntity<Void> activarProducto(@PathVariable Long id) {
         System.out.println("Llamada a activarProducto con ID: " + id); // Log simple
         productoService.activarProducto(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")        //Tested
+    public ResponseEntity<Producto> actualizarProducto(
+            @PathVariable Long id,
+            @RequestBody Producto productoActualizado) {
+        return ResponseEntity.ok(productoService.actualizarProducto(id, productoActualizado));
+    }
+
+    @DeleteMapping("/{id}") //Tested
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
+        productoService.eliminarProducto(id);
         return ResponseEntity.noContent().build();
     }
 }
