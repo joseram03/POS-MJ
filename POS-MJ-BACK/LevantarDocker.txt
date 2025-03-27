@@ -1,12 +1,15 @@
----- LEVANTAR LOS CONTENEDORES ----
+---- REQUISITOS ----
+Contar con Java 17, Maven y Docker.
+Tener disponible los puertos 5432 y 8080.
 
-mvn clean package		(comando maven para construir el proyecto)
-docker-compose build		(construye las imágenes del docker)
-docker-compose up -d		(ejecuta los contenedores, con esto ya estaría levantado el proyecto)
+---- LEVANTAR LOS CONTENEDORES ----
+mvn clean package.		(comando maven para construir el proyecto, contar con java 17)
+docker-compose build.		(construye las imágenes del docker)
+docker-compose up -d.		(ejecuta los contenedores, con esto ya estaría levantado el proyecto)
 
 ---- VERIFICAR --------------------
-docker ps			(muestra los contenedores corriendo, deberían estar los dos(bd y app) )
-docker logs pos-mj-app		(para ver los logs de la aplicacion)
-http://localhost:8080		(Acceder a la aplicacion)
-docker-compose down		(detener contenedores)
-docker-compose down -v		(detener y eliminar volumenetes, incluye datos del postgres)
+docker ps.			(muestra los contenedores corriendo, deberían estar los dos(bd y app) )
+docker logs pos-mj-app.		(para ver los logs de la aplicacion)
+http://localhost:8080.		(Acceder a la aplicacion)
+docker-compose down.		(detener contenedores)
+docker-compose down -v.		(detener y eliminar volumenetes, incluye datos del postgres)
