@@ -1,0 +1,2 @@
+Correr el proyecto:
+ng serve --open
