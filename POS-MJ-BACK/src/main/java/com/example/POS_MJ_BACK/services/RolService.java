@@ -35,8 +35,23 @@ public class RolService {
         return rolRepository.findAll();
     }
 
+    public Rol obtenerRol(Rol rol) {
+        if(rol != null && rol.getId() != null) {
+            return obtenerRolPorId(rol.getId());
+        }
+        if(rol != null && rol.getNombre() != null) {
+            return obtenerRolPorNombre(rol.getNombre());
+        }
+        return obtenerRolPorNombre("vendedor");
+    }
+
     public Rol obtenerRolPorId(Long id) {
         return rolRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+    }
+
+    public Rol obtenerRolPorNombre(String nombre) {
+        return rolRepository.findByNombre(nombre)
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
     }
 
