@@ -4,6 +4,7 @@ import com.example.POS_MJ_BACK.models.Usuario;
 import com.example.POS_MJ_BACK.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder; // Para encriptar contraseñas
+    private PasswordEncoder passwordEncoder; // Para encriptar contraseñas
 
     public List<Usuario> obtenerTodosLosUsuarios() {
         return usuarioRepository.findAll();
@@ -40,7 +41,24 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
+    public Usuario actualizarUsuarioParcial(Long id, Usuario usuarioActualizado) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if(usuarioActualizado.getNombre() != null) usuario.setNombre(usuarioActualizado.getNombre());
+        if(usuarioActualizado.getUsuario() != null) usuario.setUsuario(usuarioActualizado.getUsuario());
+        if(usuarioActualizado.getCorreo() != null) usuario.setCorreo(usuarioActualizado.getCorreo());
+
+        if (usuarioActualizado.getContrasenha() != null) {
+            usuario.setContrasenha(passwordEncoder.encode(usuarioActualizado.getContrasenha()));
+        }
+
+        if(usuarioActualizado.getRol() != null) usuario.setRol(usuarioActualizado.getRol());
+
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario actualizarUsuarioCompleto(Long id, Usuario usuarioActualizado) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
@@ -48,7 +66,7 @@ public class UsuarioService {
         usuario.setUsuario(usuarioActualizado.getUsuario());
         usuario.setCorreo(usuarioActualizado.getCorreo());
 
-        if (usuarioActualizado.getContrasenha() != null && !usuarioActualizado.getContrasenha().isEmpty()) {
+        if (usuarioActualizado.getContrasenha() != null) {
             usuario.setContrasenha(passwordEncoder.encode(usuarioActualizado.getContrasenha()));
         }
 
