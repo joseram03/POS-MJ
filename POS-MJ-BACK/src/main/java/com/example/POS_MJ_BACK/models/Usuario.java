@@ -1,6 +1,8 @@
 package com.example.POS_MJ_BACK.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -22,6 +24,8 @@ public class Usuario {
     private String usuario;
 
     @Column(nullable = false, length = 100, unique = true)
+    @Email(message = "Debe ser un correo electronico valido")
+    @NotBlank(message = "El correo es obligatorio")
     private String correo;
 
     @Column(nullable = false, length = 255)
