@@ -4,6 +4,7 @@ import com.example.POS_MJ_BACK.models.Producto;
 import com.example.POS_MJ_BACK.repositories.ProductoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,9 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class ProductoService {
-
-    private final ProductoRepository productoRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @Transactional
     public Producto crearProducto(Producto producto) {
