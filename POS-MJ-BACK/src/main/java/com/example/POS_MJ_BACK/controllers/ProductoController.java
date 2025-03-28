@@ -3,16 +3,17 @@ package com.example.POS_MJ_BACK.controllers;
 import com.example.POS_MJ_BACK.models.Producto;
 import com.example.POS_MJ_BACK.services.ProductoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/productos")
-@RequiredArgsConstructor
 public class ProductoController {
 
-    private final ProductoService productoService;
+    @Autowired
+    private ProductoService productoService;
 
     @GetMapping     //Tested
     public ResponseEntity<Page<Producto>> obtenerProductos(
