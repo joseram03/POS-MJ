@@ -32,32 +32,21 @@ public class AuthController {
     @PostMapping("/registro") //Tested
     public ResponseEntity<String> registrarUsuario(@RequestBody Usuario usuario) {
         try {
-            // Asignar un rol 'vendedor' por defecto
-            Optional<Rol> rol = rolService.obtenerTodosLosRoles().stream()
-                    .filter(r -> r.getNombre().equals("vendedor"))
-                    .findFirst();
-
-            if (rol.isPresent()) {
-                usuario.setRol(rol.get());
-                usuarioService.crearUsuario(usuario);
-                return ResponseEntity.ok("Usuario registrado exitosamente.");
-            } else {
-                return ResponseEntity.status(400).body("Rol no encontrado.");
-            }
+            // Asignar un rol 'vendedor' por defecto si no especifica que es 'administrador'
+            usuario.setRol(rolService.obtenerRol(usuario.getRol()));
+            usuarioService.crearUsuario(usuario);
+            return ResponseEntity.ok("Usuario registrado exitosamente.");
         } catch (Exception e) {
             return ResponseEntity.status(400).body("Error al registrar el usuario: " + e.getMessage());
         }
     }
 
     // Inicio de sesión (Ejemplo simple sin seguridad completa)
-    // Solo valida usuario y contrasenha
+    // Solo valida usuario y contrasenha no deben ser null
     @PostMapping("/login") //Tested
     public ResponseEntity<String> login(@RequestBody Usuario usuario) {
         try {
-            Usuario usuarioExistente = usuarioService.obtenerTodosLosUsuarios().stream()
-                    .filter(u -> u.getUsuario().equals(usuario.getUsuario()))
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            Usuario usuarioExistente = usuarioService.obtenerUsuarioPorNombreUsuario(usuario.getUsuario());
 
             if (passwordEncoder.matches(usuario.getContrasenha(), usuarioExistente.getContrasenha())) {
                 // Aquí podrías generar un JWT o iniciar una sesión

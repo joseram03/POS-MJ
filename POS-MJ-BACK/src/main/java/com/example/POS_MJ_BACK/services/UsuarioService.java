@@ -28,6 +28,11 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
+    public Usuario obtenerUsuarioPorNombreUsuario(String nombreUsuario) {
+        return usuarioRepository.findByUsuario(nombreUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+
     public Usuario crearUsuario(Usuario usuario) {
         if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
             throw new RuntimeException("El correo ya está registrado.");
