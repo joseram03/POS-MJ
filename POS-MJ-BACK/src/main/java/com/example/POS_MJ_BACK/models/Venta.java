@@ -42,8 +42,4 @@ public class Venta {
     @JoinColumn(name = "usuario_id", nullable = false)
     @NotNull(message = "El usuario es obligatorio")
     private Usuario usuario;
-
-
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DetalleVenta> detalles = new ArrayList<DetalleVenta>();
 }
