@@ -2,6 +2,7 @@ package com.example.POS_MJ_BACK.controllers;
 
 import com.example.POS_MJ_BACK.models.Venta;
 import com.example.POS_MJ_BACK.services.VentaService;
+import com.example.POS_MJ_BACK.dto.VentaConDetallesDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -24,22 +25,19 @@ public class VentaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> obtenerVentaPorId(@PathVariable Long id) {
-        return ventaService.obtenerVentaPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/{id}/detalles")
     public ResponseEntity<Venta> obtenerVentaConDetalles(@PathVariable Long id) {
         return ResponseEntity.ok(ventaService.obtenerVentaConDetalles(id));
     }
 
     @PostMapping
     public ResponseEntity<Venta> crearVenta(
-            @RequestBody Venta venta,
-            @RequestBody List<VentaService.DetalleVentaRequest> detalles) {
-        return ResponseEntity.ok(ventaService.crearVentaCompleta(venta, detalles));
+            @RequestBody VentaConDetallesDTO ventaConDetalles) {
+        return ResponseEntity.ok(
+                ventaService.crearVentaCompleta(
+                        ventaConDetalles.getVenta(),
+                        ventaConDetalles.getDetalles()
+                )
+        );
     }
 
     @DeleteMapping("/{id}")

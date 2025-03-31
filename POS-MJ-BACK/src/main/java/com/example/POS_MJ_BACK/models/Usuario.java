@@ -34,4 +34,10 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
+
+    public Usuario(Long id) {
+        this.id = id;
+    }
 }
+
+

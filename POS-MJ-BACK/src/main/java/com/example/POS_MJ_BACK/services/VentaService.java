@@ -2,6 +2,7 @@ package com.example.POS_MJ_BACK.services;
 
 import com.example.POS_MJ_BACK.models.*;
 import com.example.POS_MJ_BACK.repositories.VentaRepository;
+import com.example.POS_MJ_BACK.exceptions.RecursoNoEncontradoException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -41,33 +42,20 @@ public class VentaService {
         // Procesar detalles
         BigDecimal total = BigDecimal.ZERO;
         for (DetalleVentaRequest detalleReq : detallesRequest) {
-            Producto producto = productoService.obtenerProductoPorId(detalleReq.getProducto().getId())
+            Producto producto = productoService.obtenerProductoPorId(detalleReq.getProductoId())
                     .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+            int cantidad = detalleReq.getCantidad();
 
-            // Validar stock
-            if (producto.getStock() < detalleReq.getCantidad()) {
-                throw new IllegalArgumentException("Stock insuficiente para: " + producto.getNombre());
-            }
-
-            // Calcular subtotal
-            BigDecimal subtotal = producto.getPrecio().multiply(new BigDecimal(detalleReq.getCantidad()));
-
-            // Crear y guardar detalle
             DetalleVenta detalle = new DetalleVenta();
             detalle.setVenta(ventaGuardada);
             detalle.setProducto(producto);
-            detalle.setCantidad(detalleReq.getCantidad());
-            detalle.setSubtotal(subtotal);
+            detalle.setCantidad(cantidad);
+            detalle.setSubtotal(producto.getPrecio().multiply(new BigDecimal(cantidad)));
+
             detalleVentaService.crearDetalleVenta(detalle);
-
-            total = total.add(subtotal);
-
-            // Actualizar stock
-            producto.setStock(producto.getStock() - detalleReq.getCantidad());
-            productoService.actualizarProducto(producto.getId(), producto);
+            total = total.add(detalle.getSubtotal());
         }
 
-        // Actualizar total de la venta
         ventaGuardada.setTotal(total);
         return ventaRepository.save(ventaGuardada);
     }
@@ -76,13 +64,9 @@ public class VentaService {
         return ventaRepository.findAll(PageRequest.of(page, limit));
     }
 
-    public Optional<Venta> obtenerVentaPorId(Long id) {
-        return ventaRepository.findById(id);
-    }
-
     public Venta obtenerVentaConDetalles(Long id) {
         return ventaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Venta no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la venta con ID: " + id));
     }
 
     @Transactional
@@ -96,16 +80,16 @@ public class VentaService {
 
     // Clase interna para manejar la request de detalles
     public static class DetalleVentaRequest {
-        private Producto producto;
+        private Long productoId;  // Cambiado de "Producto producto" a "Long productoId"
         private Integer cantidad;
 
         // Getters y Setters
-        public Producto getProducto() {
-            return producto;
+        public Long getProductoId() {
+            return productoId;
         }
 
-        public void setProducto(Producto producto) {
-            this.producto = producto;
+        public void setProductoId(Long productoId) {
+            this.productoId = productoId;
         }
 
         public Integer getCantidad() {
