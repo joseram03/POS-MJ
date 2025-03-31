@@ -64,6 +64,11 @@ public class VentaService {
         return ventaRepository.findAll(PageRequest.of(page, limit));
     }
 
+    public Venta obtenerVentaPorId(Long id) {
+        return ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+    }
+
     public Venta obtenerVentaConDetalles(Long id) {
         return ventaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la venta con ID: " + id));
