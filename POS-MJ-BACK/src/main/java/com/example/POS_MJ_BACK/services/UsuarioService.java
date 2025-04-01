@@ -2,6 +2,8 @@ package com.example.POS_MJ_BACK.services;
 
 import com.example.POS_MJ_BACK.models.Usuario;
 import com.example.POS_MJ_BACK.repositories.UsuarioRepository;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -85,5 +87,13 @@ public class UsuarioService {
             throw new RuntimeException("Usuario no encontrado");
         }
         usuarioRepository.deleteById(id);
+    }
+
+    public boolean existeUsuario(String usuario) {
+        return usuarioRepository.existsByUsuario(usuario);
+    }
+
+    public boolean existeCorreo(@Email(message = "Debe ser un correo electronico valido") @NotBlank(message = "El correo es obligatorio") String correo) {
+        return usuarioRepository.existsByCorreo(correo);
     }
 }

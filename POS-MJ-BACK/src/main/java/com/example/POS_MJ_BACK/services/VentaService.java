@@ -5,6 +5,7 @@ import com.example.POS_MJ_BACK.repositories.VentaRepository;
 import com.example.POS_MJ_BACK.exceptions.RecursoNoEncontradoException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class VentaService {
+    @Autowired
+    private VentaRepository ventaRepository;
 
-    private final VentaRepository ventaRepository;
-    private final DetalleVentaService detalleVentaService;
-    private final UsuarioService usuarioService;
-    private final ProductoService productoService;
+    @Autowired
+    private DetalleVentaService detalleVentaService;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private ProductoService productoService;
 
     @Transactional
     public Venta crearVentaCompleta(Venta venta, List<DetalleVentaRequest> detallesRequest) {
@@ -62,6 +68,11 @@ public class VentaService {
 
     public Page<Venta> obtenerTodasVentas(int page, int limit) {
         return ventaRepository.findAll(PageRequest.of(page, limit));
+    }
+
+    public Venta obtenerVentaPorId(Long id) {
+        return ventaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
     }
 
     public Venta obtenerVentaConDetalles(Long id) {

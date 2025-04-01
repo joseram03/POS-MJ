@@ -4,6 +4,7 @@ import com.example.POS_MJ_BACK.models.Venta;
 import com.example.POS_MJ_BACK.services.VentaService;
 import com.example.POS_MJ_BACK.dto.VentaConDetallesDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ventas")
-@RequiredArgsConstructor
 public class VentaController {
 
-    private final VentaService ventaService;
+    @Autowired
+    private VentaService ventaService;
 
     @GetMapping
     public ResponseEntity<Page<Venta>> obtenerTodasVentas(
