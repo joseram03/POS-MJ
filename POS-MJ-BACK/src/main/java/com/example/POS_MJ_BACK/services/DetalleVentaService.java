@@ -1,5 +1,6 @@
 package com.example.POS_MJ_BACK.services;
 
+import com.example.POS_MJ_BACK.exceptions.RecursoNoEncontradoException;
 import com.example.POS_MJ_BACK.models.DetalleVenta;
 import com.example.POS_MJ_BACK.models.Producto;
 import com.example.POS_MJ_BACK.repositories.DetalleVentaRepository;
@@ -20,10 +21,10 @@ public class DetalleVentaService {
     public DetalleVenta crearDetalleVenta(DetalleVenta detalleVenta) {
         // Validar stock disponible
         Producto producto = productoService.obtenerProductoPorId(detalleVenta.getProducto().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto no encontrado"));
 
         if (producto.getStock() < detalleVenta.getCantidad()) {
-            throw new IllegalArgumentException("Stock insuficiente para el producto: " + producto.getNombre());
+            throw new RecursoNoEncontradoException("Stock insuficiente para el producto: " + producto.getNombre());
         }
 
         // Actualizar stock
