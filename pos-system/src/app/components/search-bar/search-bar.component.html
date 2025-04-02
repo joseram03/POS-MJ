@@ -1,0 +1,13 @@
+<div class="search-bar p-3">
+    <span class="p-input-icon-left w-full">
+      <i class="pi pi-search"></i>
+      <input 
+        type="text" 
+        pInputText 
+        [(ngModel)]="searchTerm" 
+        (keyup.enter)="onSearch()" 
+        placeholder="Buscar..." 
+        class="w-full"
+      />
+    </span>
+  </div>

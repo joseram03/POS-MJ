@@ -1,0 +1,23 @@
+<div class="product-card">
+    <p-card styleClass="h-full">
+      <ng-template pTemplate="header">
+        <div class="product-image">
+          <img [src]="product.imageUrl" alt="{{ product.name }}" class="w-full h-8rem object-contain" />
+        </div>
+      </ng-template>
+      <div class="product-info">
+        <h3>{{ product.name }}</h3>
+        <p class="price">{{ product.price | currency:'GS ':true }}</p>
+      </div>
+      <ng-template pTemplate="footer">
+        <button 
+          pButton 
+          type="button" 
+          label="Agregar" 
+          icon="pi pi-plus"
+          (click)="onAddToCart()"
+          class="p-button-success w-full"
+        ></button>
+      </ng-template>
+    </p-card>
+  </div>

@@ -1,0 +1,12 @@
+<div class="product-list">
+    <app-search-bar (search)="searchProducts($event)"></app-search-bar>
+    
+    <div class="grid">
+      <div *ngFor="let product of products" class="col-12 sm:col-6 md:col-4 p-2">
+        <app-product-card 
+          [product]="product" 
+          (addToCart)="addToCart($event)">
+        </app-product-card>
+      </div>
+    </div>
+  </div>
