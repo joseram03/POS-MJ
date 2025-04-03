@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule, // Asegúrate de que esto está presente
+    HttpClientModule,
     NavbarComponent,
     ProductListComponent,
     CartSummaryComponent
