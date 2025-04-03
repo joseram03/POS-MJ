@@ -68,4 +68,9 @@ public class ProductoService {
         producto.setActivo(true);
         productoRepository.save(producto);
     }
+
+    // Agrega este método a ProductoService.java
+    public Page<Producto> buscarProductos(String term, int page, int limit) {
+        return productoRepository.findByNombreContainingIgnoreCase(term, PageRequest.of(page, limit));
+    }
 }

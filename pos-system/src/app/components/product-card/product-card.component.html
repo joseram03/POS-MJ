@@ -6,12 +6,13 @@
   <p>Stock: {{product.stock}}</p>
   <p-tag [value]="getStatusLabel()" [severity]="getStatusSeverity()"></p-tag>
   <ng-template pTemplate="footer">
-    <div class="flex gap-2 justify-content-between">
-      <p-button icon="pi pi-shopping-cart" label="Agregar" (click)="onAddToCart()"></p-button>
-      <p-button icon="pi pi-pencil" (click)="onEdit()"></p-button>
-      <p-button *ngIf="product.activo" icon="pi pi-ban" severity="danger" (click)="onToggleStatus()"></p-button>
-      <p-button *ngIf="!product.activo" icon="pi pi-check" severity="success" (click)="onToggleStatus()"></p-button>
-      <p-button icon="pi pi-trash" severity="danger" (click)="onDelete()"></p-button>
+    <div class="flex gap-2 justify-content-center">
+      <p-button 
+        icon="pi pi-shopping-cart" 
+        label="Agregar" 
+        (click)="onAddToCart()"
+        styleClass="p-button-success"
+      ></p-button>
     </div>
   </ng-template>
 </p-card>

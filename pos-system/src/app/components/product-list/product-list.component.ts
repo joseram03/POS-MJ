@@ -73,12 +73,15 @@ export class ProductListComponent implements OnInit {
   searchProducts(term: string): void {
     if (term.trim()) {
       this.productService.searchProducts(term, this.first / this.rows, this.rows)
-        .subscribe(response => {
-          this.products = response.content;
-          this.totalRecords = response.totalElements;
+        .subscribe({
+          next: (response) => {
+            this.products = response.content;
+            this.totalRecords = response.totalElements;
+          },
+          error: (err) => console.error('Error en búsqueda:', err)
         });
     } else {
-      this.loadProducts();
+      this.loadProducts(); // Recargar todos los productos si el término está vacío
     }
   }
 

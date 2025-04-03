@@ -48,35 +48,7 @@
                   tooltip="Agregar al carrito"
                   tooltipPosition="top"
                 ></p-button>
-                <p-button 
-                  icon="pi pi-pencil" 
-                  (click)="showDialogToEdit(product)"
-                  tooltip="Editar"
-                  tooltipPosition="top"
-                ></p-button>
-                <p-button 
-                  *ngIf="product.activo" 
-                  icon="pi pi-ban" 
-                  severity="danger" 
-                  (click)="deactivateProduct(product.id)"
-                  tooltip="Desactivar"
-                  tooltipPosition="top"
-                ></p-button>
-                <p-button 
-                  *ngIf="!product.activo" 
-                  icon="pi pi-check" 
-                  severity="success" 
-                  (click)="activateProduct(product.id)"
-                  tooltip="Activar"
-                  tooltipPosition="top"
-                ></p-button>
-                <p-button 
-                  icon="pi pi-trash" 
-                  severity="danger" 
-                  (click)="deleteProduct(product.id)"
-                  tooltip="Eliminar"
-                  tooltipPosition="top"
-                ></p-button>
+
               </div>
             </td>
           </tr>
