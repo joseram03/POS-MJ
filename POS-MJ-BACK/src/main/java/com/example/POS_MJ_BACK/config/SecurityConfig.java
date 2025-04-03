@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -35,12 +37,11 @@ public class SecurityConfig {
         jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
         return http
+                .cors().and()
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/auth/login", "/auth/registro", "/api/productos", "/api/productos/search").permitAll();
-                    // Esto es un ej si queremos restringir toda una pagina /pag a un tipo de rol
-                    //auth.requestMatchers("/ventas/**").hasAnyAuthority("ROLE_VENDEDOR", "ROLE_ADMINISTRADOR");
                     auth.anyRequest().authenticated();
                 })
                 .addFilter(jwtAuthenticationFilter)
@@ -60,5 +61,18 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // Permite todas las rutas
+                        .allowedOrigins("http://localhost:4200") // Permitir Angular
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
+                        .allowCredentials(true);
+            }
+        };
     }
 }
