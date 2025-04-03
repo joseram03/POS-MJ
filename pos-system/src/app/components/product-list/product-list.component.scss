@@ -1,0 +1,9 @@
+:host ::ng-deep .p-dialog .p-fluid .field {
+    margin-bottom: 1rem;
+  }
+  
+  :host ::ng-deep .p-dialog .p-fluid .field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }

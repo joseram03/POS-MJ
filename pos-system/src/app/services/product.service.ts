@@ -38,8 +38,16 @@ export class ProductService {
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+    // Convertir a formato que espera el backend
+    const productToSend = {
+      nombre: product.nombre,
+      precio: product.precio,  // Number se convertirá a BigDecimal
+      stock: product.stock || 0  // Asegurar que no sea null
+    };
+    
+    return this.http.post<Product>(this.apiUrl, productToSend);
   }
+  
 
   updateProduct(id: number, product: Product): Observable<Product> {
     return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
