@@ -9,6 +9,8 @@ import { routes } from './app/app.routes'; // If using routing
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { MessageService } from 'primeng/api';
+
 
 
 bootstrapApplication(AppComponent, {
@@ -22,6 +24,7 @@ bootstrapApplication(AppComponent, {
             theme: {
                 preset: Aura
             }
-        })
+        }),
+    MessageService
   ]
 }).catch(err => console.error(err));

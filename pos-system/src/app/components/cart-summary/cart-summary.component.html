@@ -55,15 +55,21 @@
       <h3>Total: {{ total | currency:'GS ':true }}</h3>
     </div>
 
-    <div class="confirm-button mt-4">
-      <button 
-        pButton 
-        type="button" 
-        label="Confirmar" 
-        icon="pi pi-check" 
-        class="p-button-success w-full"
-        (click)="confirmSale()"
-      ></button>
-    </div>
+<div class="confirm-button mt-4">
+  <button 
+    pButton 
+    type="button"  
+    icon="pi pi-check" 
+    class="p-button-success w-full"
+    (click)="confirmSale()"
+    [disabled]="loading || cartItems.length === 0 || !selectedPaymentMethod"
+  >
+    <span *ngIf="!loading">Confirmar</span>
+    <i *ngIf="loading" class="pi pi-spinner pi-spin"></i>
+  </button>
+</div>
+
+<p-toast />
+
   </p-card>
 </div>

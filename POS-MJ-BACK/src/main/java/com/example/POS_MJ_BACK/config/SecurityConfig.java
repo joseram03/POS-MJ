@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/auth/login", "/auth/registro", "/api/productos", "/api/productos/search").permitAll();
+                    auth.requestMatchers("/auth/login", "/auth/registro", "/api/productos", "/api/productos/search", "/api/ventas").permitAll();
                     // Esto es un ej si queremos restringir toda una pagina /pag a un tipo de rol
                     //auth.requestMatchers("/ventas/**").hasAnyAuthority("ROLE_VENDEDOR", "ROLE_ADMINISTRADOR");
                     auth.anyRequest().authenticated();
