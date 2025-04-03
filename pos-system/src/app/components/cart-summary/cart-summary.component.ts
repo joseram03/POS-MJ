@@ -37,10 +37,9 @@ export class CartSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentMethods = [
-      { name: 'Efectivo', code: 'cash' },
-      { name: 'Tarjeta de Crédito', code: 'credit' },
-      { name: 'Tarjeta de Débito', code: 'debit' },
-      { name: 'Transferencia', code: 'transfer' }
+      { name: 'Efectivo', code: 'EFECTIVO' },
+      { name: 'Tarjeta', code: 'TARJETA' },
+      { name: 'Transferencia', code: 'Transferencia' }
     ];
 
     this.cartService.getCartItems().subscribe(items => {

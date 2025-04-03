@@ -1,23 +1,17 @@
-<div class="product-card">
-    <p-card styleClass="h-full">
-      <ng-template pTemplate="header">
-        <div class="product-image">
-          <img [src]="product.imageUrl" alt="{{ product.name }}" class="w-full h-8rem object-contain" />
-        </div>
-      </ng-template>
-      <div class="product-info">
-        <h3>{{ product.name }}</h3>
-        <p class="price">{{ product.price | currency:'GS ':true }}</p>
-      </div>
-      <ng-template pTemplate="footer">
-        <button 
-          pButton 
-          type="button" 
-          label="Agregar" 
-          icon="pi pi-plus"
-          (click)="onAddToCart()"
-          class="p-button-success w-full"
-        ></button>
-      </ng-template>
-    </p-card>
-  </div>
+<p-card [header]="product.nombre || ''" [subheader]="(product.precio | currency) || ''" styleClass="h-full">
+  <ng-template pTemplate="header">
+    <img alt="Card" [src]="'assets/images/products/' + product.id + '.jpg'" 
+         onerror="this.src='assets/images/placeholder.jpg'">
+  </ng-template>
+  <p>Stock: {{product.stock}}</p>
+  <p-tag [value]="getStatusLabel()" [severity]="getStatusSeverity()"></p-tag>
+  <ng-template pTemplate="footer">
+    <div class="flex gap-2 justify-content-between">
+      <p-button icon="pi pi-shopping-cart" label="Agregar" (click)="onAddToCart()"></p-button>
+      <p-button icon="pi pi-pencil" (click)="onEdit()"></p-button>
+      <p-button *ngIf="product.activo" icon="pi pi-ban" severity="danger" (click)="onToggleStatus()"></p-button>
+      <p-button *ngIf="!product.activo" icon="pi pi-check" severity="success" (click)="onToggleStatus()"></p-button>
+      <p-button icon="pi pi-trash" severity="danger" (click)="onDelete()"></p-button>
+    </div>
+  </ng-template>
+</p-card>
