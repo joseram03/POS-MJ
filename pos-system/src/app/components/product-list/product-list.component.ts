@@ -101,17 +101,34 @@ export class ProductListComponent implements OnInit {
       return;
     }
   
+    // Preparar los datos para enviar (podrías enviar solo los campos modificados)
+    const productData = {
+      nombre: this.selectedProduct.nombre,
+      precio: this.selectedProduct.precio,
+      stock: this.selectedProduct.stock
+    };
+  
     if (this.selectedProduct.id) {
       this.productService.updateProduct(this.selectedProduct.id, this.selectedProduct)
-        .subscribe(() => {
-          this.loadProducts();
-          this.displayDialog = false;
+        .subscribe({
+          next: () => {
+            this.loadProducts();
+            this.displayDialog = false;
+          },
+          error: (err) => {
+            console.error('Error al actualizar producto:', err);
+          }
         });
     } else {
       this.productService.createProduct(this.selectedProduct)
-        .subscribe(() => {
-          this.loadProducts();
-          this.displayDialog = false;
+        .subscribe({
+          next: () => {
+            this.loadProducts();
+            this.displayDialog = false;
+          },
+          error: (err) => {
+            console.error('Error al crear producto:', err);
+         }
         });
     }
   }
