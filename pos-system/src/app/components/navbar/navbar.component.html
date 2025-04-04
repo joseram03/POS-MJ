@@ -1,8 +1,14 @@
 <div class="navbar">
-    <div class="p-d-flex p-jc-between p-ai-center bg-primary p-3">
-      <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
-      <div>
-        <p-avatar icon="pi pi-user" styleClass="mr-2" size="large" shape="circle"></p-avatar>
-      </div>
+  <div class="header-container">
+    <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
+    <div class="user-section">
+      <p-avatar 
+        icon="pi pi-user" 
+        styleClass="mr-2" 
+        size="large" 
+        shape="circle"
+        [style]="{'background-color':'var(--primary-color)', 'color':'white'}"
+      ></p-avatar>
     </div>
   </div>
+</div>

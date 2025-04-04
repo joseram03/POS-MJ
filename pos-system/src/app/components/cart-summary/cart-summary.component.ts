@@ -95,7 +95,7 @@ confirmSale(): void {
     
     // Aquí puedes obtener el ID del usuario autenticado de tu servicio de autenticación
     // Por ahora lo dejamos como 1 para pruebas
-    const usuarioId = 1; 
+    const usuarioId = 2; 
 
     this.cartService.confirmarVenta(this.selectedPaymentMethod.code, usuarioId)
       .subscribe({

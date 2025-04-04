@@ -1,0 +1,37 @@
+.navbar {
+    background-color: var(--primary-color);
+    color: white;
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      
+      ::ng-deep .p-tabmenu {
+        .p-tabmenu-nav {
+          background: transparent;
+          border: none;
+          
+          .p-menuitem-link {
+            color: white;
+            
+            &:not(.p-disabled):hover {
+              color: white;
+              border-color: white;
+            }
+          }
+          
+          .p-tabmenuitem.p-highlight .p-menuitem-link {
+            color: white;
+            border-color: white;
+          }
+        }
+      }
+    }
+    
+    .user-section {
+      display: flex;
+      align-items: center;
+    }
+  }

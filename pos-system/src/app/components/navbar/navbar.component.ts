@@ -17,8 +17,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.items = [
-      { label: 'Productos', icon: 'pi pi-box' },
-      { label: 'Ventas', icon: 'pi pi-shopping-cart' }
+      { label: 'Productos', icon: 'pi pi-box' }
     ];
     this.activeItem = this.items[0];
   }

@@ -1,1 +1,15 @@
-<p-button label="sign out" (onClick)="logout()"></p-button>
+<div class="main-container">
+    <app-navbar></app-navbar>
+    
+    <div class="content-container">
+      <!-- Columna principal para la lista de productos -->
+      <div class="product-list-column">
+        <app-product-list></app-product-list>
+      </div>
+  
+      <!-- Columna lateral para el resumen del carrito -->
+      <div class="cart-summary-column">
+        <app-cart-summary></app-cart-summary>
+      </div>
+    </div>
+  </div>
