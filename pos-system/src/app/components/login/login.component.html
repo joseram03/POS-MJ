@@ -1,5 +1,5 @@
 <div class="flex justify-content-center align-items-center min-h-screen">
-  <p-card header="login" [style]="{ width: '400px' }">
+  <p-card header="Inicio de Sesión" [style]="{ width: '400px' }">
     <form #loginForm="ngForm" (ngSubmit)="onLogin()">
       <div class="field">
         <label for="username">Usuario</label>
@@ -22,7 +22,7 @@
         }
       </div>
       <div class="field">
-        <label for="password">Password</label>
+        <label for="password">Contraseña</label>
         <p-password
           [(ngModel)]="login.contrasenha"
           [feedback]="false"
@@ -35,7 +35,7 @@
           required
         />
         @if(password.invalid && (password.dirty || password.touched)) {
-        <small class="block p-error"> Password es requerido </small>
+        <small class="block p-error"> La contraseña es requerida </small>
         }
       </div>
       <p-button label="INICIAR SESIÓN" styleClass="w-full" [disabled]="loginForm.invalid" type="submit" />
