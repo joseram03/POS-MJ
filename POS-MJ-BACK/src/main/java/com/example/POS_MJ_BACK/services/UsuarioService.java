@@ -96,4 +96,9 @@ public class UsuarioService {
     public boolean existeCorreo(@Email(message = "Debe ser un correo electronico valido") @NotBlank(message = "El correo es obligatorio") String correo) {
         return usuarioRepository.existsByCorreo(correo);
     }
+
+    public Usuario obtenerUsuarioPorNombre(String nombre) {
+        return usuarioRepository.findByUsuario(nombre)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
 }

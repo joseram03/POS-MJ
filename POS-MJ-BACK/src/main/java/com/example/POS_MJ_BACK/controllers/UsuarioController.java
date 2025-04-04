@@ -85,4 +85,21 @@ public class UsuarioController {
                     .body(new RespuestaDTO(400, "Error al eliminar el usuario: " + e.getMessage(), null));
         }
     }
+
+    //Obtener usuario por nombre
+    @GetMapping("/nombre/{nombre}")
+    @PreAuthorize("hasAnyRole('VENDEDOR'||'ADMINISTRADOR')")
+    public ResponseEntity<RespuestaDTO> obtenerUsuarioPorNombre(@PathVariable String nombre) {
+        try {
+            Usuario usuario = usuarioService.obtenerUsuarioPorNombre(nombre);
+            return ResponseEntity.ok(new RespuestaDTO(200, "Usuario obtenido exitosamente", usuario));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new RespuestaDTO(404, "Usuario no encontrado", null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new RespuestaDTO(500, "Error al obtener el usuario: " + e.getMessage(), null));
+        }
+    }
+
 }
