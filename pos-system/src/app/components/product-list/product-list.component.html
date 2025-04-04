@@ -48,6 +48,14 @@
                   tooltipPosition="top"
                 ></p-button>
 
+                <p-button 
+                icon="pi pi-pencil" 
+                (click)="showDialogToEdit(product)"
+                tooltip="Editar producto"
+                tooltipPosition="top"
+                styleClass="p-button-warning"
+              ></p-button>
+
               </div>
             </td>
           </tr>
@@ -89,7 +97,7 @@
 
     <!-- Precio (como textbox con validación) -->
     <div class="field">
-      <label for="precio">Precio (USD)</label>
+      <label for="precio">Precio (Gs)</label>
       <input 
         id="precio" 
         type="text" 

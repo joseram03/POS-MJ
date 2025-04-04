@@ -4,6 +4,7 @@ import { Product } from '../models/product.model';
 import { CartItem } from '../models/cart-item.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { HttpHeaders } from '@angular/common/http';
 
 interface VentaRequest {
   venta: {
@@ -91,6 +92,13 @@ export class CartService {
   }
 
   confirmarVenta(metodoPago: string, usuarioId: number): Observable<any> {
+    const token = sessionStorage.getItem('token'); // Obtiene el token guardado
+    
+    // Configura los headers con el token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // ⬅️ Formato: "Bearer [token]"
+    });
+  
     const ventaRequest: VentaRequest = {
       venta: {
         metodoPago,
@@ -101,9 +109,7 @@ export class CartService {
         cantidad: item.quantity
       }))
     };
-
-    console.log('Venta Request:', ventaRequest); // Debugging line
-
-    return this.http.post(this.apiUrl, ventaRequest);
+  
+    return this.http.post(this.apiUrl, ventaRequest, { headers }); // ⬅️ Envía los headers
   }
 }
