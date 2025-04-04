@@ -89,6 +89,17 @@ export class ProductListComponent implements OnInit {
     this.cartService.addToCart(product);
   }
 
+  showDialogToAdd(): void {
+    this.newProduct = {
+      id: 0,
+      nombre: '',
+      precio: 0,
+      stock: 0,
+      activo: true
+    };
+    this.selectedProduct = { ...this.newProduct };
+    this.displayDialog = true;
+  }
 
   showDialogToEdit(product: Product): void {
     this.selectedProduct = { ...product };
@@ -96,11 +107,6 @@ export class ProductListComponent implements OnInit {
   }
 
   save(): void {
-    // Validación mínima
-    if (!this.selectedProduct.nombre || !this.selectedProduct.precio || this.selectedProduct.precio <= 0) {
-      return;
-    }
-  
     if (this.selectedProduct.id) {
       this.productService.updateProduct(this.selectedProduct.id, this.selectedProduct)
         .subscribe(() => {
@@ -115,17 +121,6 @@ export class ProductListComponent implements OnInit {
         });
     }
   }
-  
-  showDialogToAdd(): void {
-    this.selectedProduct = {
-      id: 0,
-      nombre: '',
-      precio: 0,
-      stock: 0,
-      activo: true
-    };
-    this.displayDialog = true;
-  }
 
   activateProduct(id: number): void {
     this.productService.activateProduct(id).subscribe(() => this.loadProducts());
@@ -137,28 +132,5 @@ export class ProductListComponent implements OnInit {
 
   deleteProduct(id: number): void {
     this.productService.deleteProduct(id).subscribe(() => this.loadProducts());
-  }
-
-  formatPrecio(event: any) {
-    let value = event.target.value;
-    // Elimina caracteres no numéricos (excepto punto decimal)
-    value = value.replace(/[^0-9.]/g, '');
-    
-    // Asegura máximo 2 decimales
-    if (value.includes('.')) {
-      const parts = value.split('.');
-      if (parts[1].length > 2) {
-        value = parts[0] + '.' + parts[1].substring(0, 2);
-      }
-    }
-    
-    this.selectedProduct.precio = parseFloat(value) || 0;
-  }
-  
-  validateStock(event: any) {
-    let value = event.target.value;
-    // Solo permite números enteros
-    value = value.replace(/[^0-9]/g, '');
-    this.selectedProduct.stock = parseInt(value) || 0;
   }
 }

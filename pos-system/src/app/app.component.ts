@@ -5,8 +5,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { CartSummaryComponent } from './components/cart-summary/cart-summary.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MessageModule } from 'primeng/message';
-import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
@@ -17,9 +15,7 @@ import { ToastModule } from 'primeng/toast';
     HttpClientModule,
     NavbarComponent,
     ProductListComponent,
-    CartSummaryComponent,
-    ToastModule,
-    MessageModule
+    CartSummaryComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
