@@ -2,16 +2,32 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 import { CartItem } from '../models/cart-item.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+
+interface VentaRequest {
+  venta: {
+    metodoPago: string;
+    usuario: {
+      id: number;
+    };
+  };
+  detalles: Array<{
+    productoId: number;
+    cantidad: number;
+  }>;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  private apiUrl = `${environment.apiUrl}/api/ventas`;
   private cartItems: CartItem[] = [];
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
   private totalSubject = new BehaviorSubject<number>(0);
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getCartItems(): Observable<CartItem[]> {
     return this.cartSubject.asObservable();
@@ -72,5 +88,22 @@ export class CartService {
       0
     );
     this.totalSubject.next(total);
+  }
+
+  confirmarVenta(metodoPago: string, usuarioId: number): Observable<any> {
+    const ventaRequest: VentaRequest = {
+      venta: {
+        metodoPago,
+        usuario: { id: usuarioId }
+      },
+      detalles: this.cartItems.map(item => ({
+        productoId: item.product.id,
+        cantidad: item.quantity
+      }))
+    };
+
+    console.log('Venta Request:', ventaRequest); // Debugging line
+
+    return this.http.post(this.apiUrl, ventaRequest);
   }
 }

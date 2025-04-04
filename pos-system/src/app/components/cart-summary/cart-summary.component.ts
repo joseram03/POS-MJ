@@ -7,6 +7,8 @@ import { TableModule } from 'primeng/table';
 import { CartItem } from '../../models/cart-item.model';
 import { CartService } from '../../services/cart.service';
 import { CardModule } from 'primeng/card';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 interface PaymentMethod {
   name: string;
@@ -22,7 +24,8 @@ interface PaymentMethod {
     DropdownModule,
     ButtonModule,
     TableModule,
-    CardModule
+    CardModule,
+    ToastModule
   ],
   templateUrl: './cart-summary.component.html',
   styleUrls: ['./cart-summary.component.scss']
@@ -32,14 +35,18 @@ export class CartSummaryComponent implements OnInit {
   total: number = 0;
   paymentMethods: PaymentMethod[] = [];
   selectedPaymentMethod: PaymentMethod | undefined;
+  loading = false;
 
-  constructor(private cartService: CartService) { }
+  constructor(
+    private cartService: CartService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.paymentMethods = [
       { name: 'Efectivo', code: 'EFECTIVO' },
       { name: 'Tarjeta', code: 'TARJETA' },
-      { name: 'Transferencia', code: 'Transferencia' }
+      { name: 'Transferencia', code: 'TRANSFERENCIA' }
     ];
 
     this.cartService.getCartItems().subscribe(items => {
@@ -65,12 +72,51 @@ export class CartSummaryComponent implements OnInit {
     this.cartService.removeFromCart(item.product);
   }
 
-  confirmSale(): void {
-    if (this.cartItems.length > 0 && this.selectedPaymentMethod) {
-      alert('Venta confirmada con método de pago: ' + this.selectedPaymentMethod.name);
-      this.cartService.clearCart();
-    } else {
-      alert('Agregue productos al carrito y seleccione un método de pago');
+confirmSale(): void {
+    if (this.cartItems.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Carrito vacío',
+        detail: 'Agregue productos al carrito antes de confirmar'
+      });
+      return;
     }
+
+    if (!this.selectedPaymentMethod) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Método de pago requerido',
+        detail: 'Seleccione un método de pago'
+      });
+      return;
+    }
+
+    this.loading = true;
+    
+    // Aquí puedes obtener el ID del usuario autenticado de tu servicio de autenticación
+    // Por ahora lo dejamos como 1 para pruebas
+    const usuarioId = 1; 
+
+    this.cartService.confirmarVenta(this.selectedPaymentMethod.code, usuarioId)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Venta confirmada',
+            detail: 'La venta se ha registrado correctamente'
+          });
+          this.cartService.clearCart();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error al confirmar venta:', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Ocurrió un error al confirmar la venta'
+          });
+          this.loading = false;
+        }
+      });
   }
 }
