@@ -92,14 +92,7 @@ export class CartService {
   }
 
   confirmarVenta(metodoPago: string, usuarioId: number): Observable<any> {
-    const token = sessionStorage.getItem('token'); // Obtiene el token guardado
-    
-    // Configura los headers con el token
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}` // ⬅️ Formato: "Bearer [token]"
-    });
-  
-    const ventaRequest: VentaRequest = {
+    const ventaRequest = {
       venta: {
         metodoPago,
         usuario: { id: usuarioId }
@@ -110,6 +103,7 @@ export class CartService {
       }))
     };
   
-    return this.http.post(this.apiUrl, ventaRequest, { headers }); // ⬅️ Envía los headers
+    // El interceptor añadirá automáticamente el token
+    return this.http.post(this.apiUrl, ventaRequest);
   }
 }
